@@ -184,7 +184,18 @@ When you get the message `Verifying flash... Verified` you have succeeded!
 
 Up next, setting up Heads: 
 * [Adding your PGP key](https://trmm.net/Installing_Heads#Adding_your_PGP_key)
-* [Configuring the TPM](https://trmm.net/Installing_Heads#Configuring_the_TPM)
+
+# [Configuring the TPM](https://trmm.net/Installing_Heads#Configuring_the_TPM)
+
+`cd /bin`
+
+`tpm physicalpresence -s`
+`tpm physicalenable`
+`tpm physicalsetdeactivated -c`
+`tpm forceclear`
+`tpm physicalenable`
+`tpm takeown -pwdo OWNER_PASSWORD` <- [fail](https://github.com/osresearch/heads/issues/117)
+`tpm takeclear -pwdo OWNER_PASSWORD` <- [fail](https://github.com/osresearch/heads/issues/117)
 
 ----
 
