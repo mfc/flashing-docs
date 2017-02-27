@@ -142,6 +142,8 @@ which is:
 
 # Set up appropriate power for Raspberry Pi and x230 board for chip
 
+If you are interested in ME Neutering, ignore the following advice and instead power the board throug the RPi.
+
 You should have already gone into the x230 BIOS to enable Wake on LAN. With the x230 battery removed, plug in AC power and connect the x230 to a live ethernet connection via the ethernet cable. "live" just means that the computer (or wall socket) it is connected to is on. The green RJ45 (ethernet) light should turn on, signaling that the board is powered. The computer itself should remain off (no BIOS screen, etc).
 
 While it is [recommended](https://www.bios-mods.com/forum/Thread-Thinkpad-X230-Can-t-read-BIOS-CHIP-using-Raspberry-PI-and-8pin-CLIP?pid=104417#pid104417) to power the Raspberry Pi through to-be-flashed x230, I was unable to do so (the Raspberry Pi did not turn on). I was able to power the Raspberry Pi by connecting it to a wall outlet via the micro-USB cable. You should test out powering the RPi with the Pomona Clip detached from the x230, so that you are just booting the RPi, and you can see whether or not it is receiving adequate power. If on boot there is a yellow lightning bolt in the upper right corner that means that your RPi is not receiving enough power -- try a different (shorter) micro-USB cable, try a wall outlet rather than plugging it into a computer.
@@ -183,3 +185,34 @@ When you get the message `Verifying flash... Verified` you have succeeded!
 Up next, setting up Heads: 
 * [Adding your PGP key](https://trmm.net/Installing_Heads#Adding_your_PGP_key)
 * [Configuring the TPM](https://trmm.net/Installing_Heads#Configuring_the_TPM)
+
+----
+
+# Neutering ME
+
+attach Pomona clip to MX25L6406E, which is further from the screen and closer to you.
+
+`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup1.rom`
+`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup2.rom`
+
+Now run diff to see if they match:
+
+`diff me-backup1.rom me-backup2.rom`
+
+If you receive no output, they match. Alternatively, you can take a `sha512sum`, `sha1sum`, or `md5sum` of the files to confirm they match:
+
+`sha512sum me-backup*.rom`
+
+clean a copy
+
+`python ./me-cleaner.py me-backup1.rom`
+
+rename to `me-cleaned.rom`
+
+flash to board
+
+`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -w /path/to/me-cleaned.rom`
+
+
+* http://hardenedlinux.org/firmware/2016/11/17/neutralize_ME_firmware_on_sandybridge_and_ivybridge.html
+* https://github.com/corna/me_cleaner/wiki/How-does-it-work%3F
