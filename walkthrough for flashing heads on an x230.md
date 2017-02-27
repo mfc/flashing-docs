@@ -142,7 +142,7 @@ which is:
 
 # Set up appropriate power for Raspberry Pi and x230 board for chip
 
-If you are interested in ME Neutering, ignore the following advice and instead power the board throug the RPi.
+**If you are interested in ME Neutering, ignore the following advice and instead power the board throug the RPi.**
 
 You should have already gone into the x230 BIOS to enable Wake on LAN. With the x230 battery removed, plug in AC power and connect the x230 to a live ethernet connection via the ethernet cable. "live" just means that the computer (or wall socket) it is connected to is on. The green RJ45 (ethernet) light should turn on, signaling that the board is powered. The computer itself should remain off (no BIOS screen, etc).
 
@@ -183,21 +183,24 @@ When you get the message `Verifying flash... Verified` you have succeeded!
 ----
 
 Up next, setting up Heads: 
-* [Adding your PGP key](https://trmm.net/Installing_Heads#Adding_your_PGP_key)
 
-# [Configuring the TPM](https://trmm.net/Installing_Heads#Configuring_the_TPM)
+# Adding your PGP key
 
-`cd /bin`
+* https://trmm.net/Installing_Heads#Adding_your_PGP_key
 
-`tpm physicalpresence -s`
-`tpm physicalenable`
-`tpm physicalsetdeactivated -c`
-`tpm forceclear`
-`tpm physicalenable`
-`tpm takeown -pwdo OWNER_PASSWORD` <- [fail](https://github.com/osresearch/heads/issues/117)
-`tpm takeclear -pwdo OWNER_PASSWORD` <- [fail](https://github.com/osresearch/heads/issues/117)
+# Configuring the TPM
 
-----
+* (https://trmm.net/Installing_Heads#Configuring_the_TPM)
+
+1. `tpm physicalpresence -s`
+2. `tpm physicalenable`
+3. `tpm physicalsetdeactivated -c`
+3. `tpm forceclear`
+4. `tpm physicalenable`
+5. `tpm takeown -pwdo OWNER_PASSWORD` <- [fail](https://github.com/osresearch/heads/issues/117)
+6. `tpm takeclear -pwdo OWNER_PASSWORD` <- [fail](https://github.com/osresearch/heads/issues/117)
+7. `sealtotp.sh`
+8. fail...
 
 # Neutering ME
 
