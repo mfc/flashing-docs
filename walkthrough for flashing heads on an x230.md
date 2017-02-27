@@ -85,7 +85,7 @@ Now looking at the Pomona 8-SOIC clip, these wires will go:
 | 19 | 25
 | 23 | empty
 | empty | 21
-| empty | 24
+| empty (or 17 [if powering from RPi](https://github.com/mfc/flashing-docs/blob/master/walkthrough%20for%20flashing%20heads%20on%20an%20x230.md#set-up-appropriate-power-for-raspberry-pi-and-x230-board-for-chip)) | 24
 
 # Prepare x230 and expose BIOS chip
 
@@ -129,7 +129,7 @@ Attach the Pomona clip to the MX25L3206E chip, with GND to the upper-right.
 | SI/SIO0  | GND
 | SCLK | empty
 | empty | SO/SIO1
-| empty | CS#
+| empty (or VCC [if powering from RPi](https://github.com/mfc/flashing-docs/blob/master/walkthrough%20for%20flashing%20heads%20on%20an%20x230.md#set-up-appropriate-power-for-raspberry-pi-and-x230-board-for-chip)) | CS#
 
 which is:
 
@@ -138,7 +138,7 @@ which is:
 | 19 | 25
 | 23 | empty
 | empty | 21
-| empty | 24
+| empty (or 17 [if powering from RPi](https://github.com/mfc/flashing-docs/blob/master/walkthrough%20for%20flashing%20heads%20on%20an%20x230.md#set-up-appropriate-power-for-raspberry-pi-and-x230-board-for-chip)) | 24
 
 # Set up appropriate power for Raspberry Pi and x230 board for chip
 
