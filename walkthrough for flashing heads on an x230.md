@@ -31,7 +31,7 @@
 in dedicated Fedora 23 `heads` qube:
 
 1. increase size of qube to `5120 MB`
-2. `sudo dnf install @development-tools bison clang flex m4 zlib zlib-devel perl-Digest perl-Digest-MD5 patch uuid-devel`
+2. `sudo dnf install @development-tools bison clang flex m4 zlib zlib-devel perl-Digest perl-Digest-MD5 patch uuid-devel elfutils-libelf-devel`
 3. [Download Heads](https://github.com/osresearch/heads)
   - unzip if necessary
 5. build Heads
