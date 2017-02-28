@@ -193,9 +193,9 @@ Up next, setting up Heads:
 Things that need to be modified and re-built :(
 
 * https://trmm.net/Installing_Heads#Adding_your_PGP_key
-* [comment it out of Makefile for now](https://github.com/osresearch/heads/issues/119)
-->	change: `--module "${KERNEL} root=/dev/mapper/qubes_dom0=root rhgb" \`
--> XEN=/boot/xen
+  * [comment it out of Makefile for now](https://github.com/osresearch/heads/issues/119)
+*	change: `--module "${KERNEL} root=/dev/mapper/qubes_dom0=root rhgb" \` to [...not sure yet...](https://github.com/osresearch/heads/issues/110)
+* `XEN=/boot/xen` (see [https://github.com/osresearch/heads/issues/84#issuecomment-274623405])
 
 # Add Xen to boot
 
@@ -221,7 +221,7 @@ First, ensure time is local:
 1. `date -u` should give you UTC time, `date` should give you your local time. If it doesn't:
 2. `export TZ=TIMEZONE`
 
-[here is a list of timezones](https://uical.uic.edu/ocas/ocwc/american/help/timezone.htm), I had success with the `UCT#` format.
+[here is a list of timezones](https://uical.uic.edu/ocas/ocwc/american/help/timezone.htm), I had success with the `UCT#` format. also: https://unix.stackexchange.com/questions/71860/correct-use-of-tz-date-and-hwclock
 
 1. `tpm physicalpresence -s`
 2. `tpm physicalenable`
