@@ -1,4 +1,4 @@
-# Walkthrough for flashing Heads on an x230
+# Walkthrough for getting Heads on an x230
 
 # Required Hardware
 * Raspberry Pi 3 Model B
@@ -13,7 +13,7 @@
 * ethernet cable
 * device with live ethernet port
 
-# Table of Contents
+# Flashing Table of Contents
 
 1. [Build Heads](#build-heads)
 1. [Install Qubes OS on to-be-flashed x230](#install-qubes-os-on-to-be-flashed-x230)
@@ -25,6 +25,10 @@
 1. [Set up appropriate power for Raspberry Pi and x230 board for chip](#set-up-appropriate-power-for-raspberry-pi-and-x230-board-for-chip)
 1. [Backup existing BIOS](#backup-existing-bios)
 1. [Flash Heads on an x230](#flash-heads-on-an-x230)
+
+# Configuring Table of Contents
+
+1. 
 
 # Build Heads
 
@@ -184,27 +188,36 @@ When you get the message `Verifying flash... Verified` you have succeeded!
 
 Up next, setting up Heads: 
 
-# Adding your PGP key
+# Running Qubes
+
+Things that need to be modified and re-built :(
 
 * https://trmm.net/Installing_Heads#Adding_your_PGP_key
 * [comment it out of Makefile for now](https://github.com/osresearch/heads/issues/119)
+->	change: `--module "${KERNEL} root=/dev/mapper/qubes_dom0=root rhgb" \`
+-> XEN=/boot/xen
 
 # Add Xen to boot
 
 https://github.com/osresearch/heads/issues/84#issuecomment-274623405
 
 1. `make xen.intermediate`
-2. copy to USB and **note the filesystem of the USB**
+2. copy to USB and **note the filesystem of the USB** (if NTFS reformat to ext4, Heads can't mount NTFS)
 3. plug USB into Heads machine
 4. `mkdir /tmp/usb`
 5. `mount /dev/sdbX /tmp/usb`
-6. `cp /tmp/usb/xen.gz /boot`
+6. `mount -o rw /dev/sda1 /boot`
+6. `cp /tmp/usb/xen-4.6.3.gz /boot`
+7. `gunzip /xen-4.6.3.gz`
+8. `umount /tmp/usb`
+9. `umount /boot`
 
 # Configuring the TPM
 
-* (https://trmm.net/Installing_Heads#Configuring_the_TPM)
+see (https://trmm.net/Installing_Heads#Configuring_the_TPM)
 
-ensure time is local.
+First, ensure time is local:
+
 1. `date -u` should give you UTC time, `date` should give you your local time. If it doesn't:
 2. `export TZ=TIMEZONE`
 
@@ -213,37 +226,37 @@ ensure time is local.
 1. `tpm physicalpresence -s`
 2. `tpm physicalenable`
 3. `tpm physicalsetdeactivated -c`
-3. `tpm forceclear`
+3. `tpm forceclear` (if you get an error `TPM deactivated`, you can enable TPM with `????`)
 4. `tpm physicalenable`
 5. `tpm takeclear -pwdo OWNER_PASSWORD` (should be `takeown`, [related bug](https://github.com/osresearch/heads/issues/117)
-6. `sealtotp.sh`
-8. fail...
+6. `/bin/sealtotp.sh`
+7. scan QR code
+8. test with `unsealtotp.sh`
 
 # Neutering ME
 
 attach Pomona clip to MX25L6406E, which is further from the screen and closer to you.
 
-`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup1.rom`
-`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup2.rom`
+1. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup1.rom`
+2. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup2.rom`
 
 Now run diff to see if they match:
 
-`diff me-backup1.rom me-backup2.rom`
+1. `diff me-backup1.rom me-backup2.rom`
 
 If you receive no output, they match. Alternatively, you can take a `sha512sum`, `sha1sum`, or `md5sum` of the files to confirm they match:
 
-`sha512sum me-backup*.rom`
+1. `sha512sum me-backup*.rom`
 
 clean a copy
 
-`python ./me-cleaner.py me-backup1.rom`
+1 .`python ./me-cleaner.py me-backup1.rom`
 
-rename to `me-cleaned.rom`
+1. rename to `me-cleaned.rom`
 
 flash to board
 
-`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -w /path/to/me-cleaned.rom`
-
+1. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -w /path/to/me-cleaned.rom`
 
 * http://hardenedlinux.org/firmware/2016/11/17/neutralize_ME_firmware_on_sandybridge_and_ivybridge.html
 * https://github.com/corna/me_cleaner/wiki/How-does-it-work%3F
