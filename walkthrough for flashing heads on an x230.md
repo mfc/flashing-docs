@@ -187,19 +187,36 @@ Up next, setting up Heads:
 # Adding your PGP key
 
 * https://trmm.net/Installing_Heads#Adding_your_PGP_key
+* [comment it out of Makefile for now](https://github.com/osresearch/heads/issues/119)
+
+# Add Xen to boot
+
+https://github.com/osresearch/heads/issues/84#issuecomment-274623405
+
+1. `make xen.intermediate`
+2. copy to USB and **note the filesystem of the USB**
+3. plug USB into Heads machine
+4. `mkdir /tmp/usb`
+5. `mount /dev/sdbX /tmp/usb`
+6. `cp /tmp/usb/xen.gz /boot`
 
 # Configuring the TPM
 
 * (https://trmm.net/Installing_Heads#Configuring_the_TPM)
+
+ensure time is local.
+1. `date -u` should give you UTC time, `date` should give you your local time. If it doesn't:
+2. `export TZ=TIMEZONE`
+
+[here is a list of timezones](https://uical.uic.edu/ocas/ocwc/american/help/timezone.htm), I had success with the `UCT#` format.
 
 1. `tpm physicalpresence -s`
 2. `tpm physicalenable`
 3. `tpm physicalsetdeactivated -c`
 3. `tpm forceclear`
 4. `tpm physicalenable`
-5. `tpm takeown -pwdo OWNER_PASSWORD` <- [fail](https://github.com/osresearch/heads/issues/117)
-6. `tpm takeclear -pwdo OWNER_PASSWORD` <- [fail](https://github.com/osresearch/heads/issues/117)
-7. `sealtotp.sh`
+5. `tpm takeclear -pwdo OWNER_PASSWORD` (should be `takeown`, [related bug](https://github.com/osresearch/heads/issues/117)
+6. `sealtotp.sh`
 8. fail...
 
 # Neutering ME
