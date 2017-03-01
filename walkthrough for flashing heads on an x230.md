@@ -190,12 +190,12 @@ Up next, setting up Heads:
 
 # Running Qubes
 
-Things that need to be modified and re-built :(
+Things that need to be modified in the Makefile and re-built and re-flashed (unless you want to edit it every boot)
 
 * https://trmm.net/Installing_Heads#Adding_your_PGP_key
   * [comment it out of Makefile for now](https://github.com/osresearch/heads/issues/119)
-*	change: `--module "${KERNEL} root=/dev/mapper/qubes_dom0=root rhgb" \` to [...not sure yet...](https://github.com/osresearch/heads/issues/110)
-* `XEN=/boot/xen` (see [https://github.com/osresearch/heads/issues/84#issuecomment-274623405])
+*	change: `--module "${KERNEL} root=/dev/mapper/qubes_dom0=root rhgb" \` to `--module "${KERNEL} root=/dev/mapper/qubes_dom0-root rhgb" \` (see: [ticket](https://github.com/osresearch/heads/issues/110))
+* `XEN=/boot/xen` (see [ticket](https://github.com/osresearch/heads/issues/84#issuecomment-274623405))
 
 # Add Xen to boot
 
