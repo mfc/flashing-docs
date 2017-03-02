@@ -13,7 +13,7 @@
 * ethernet cable
 * device with live ethernet port
 
-# Flashing Table of Contents
+# Table of Contents
 
 1. [Build Heads](#build-heads)
 1. [Install Qubes OS on to-be-flashed x230](#install-qubes-os-on-to-be-flashed-x230)
@@ -25,10 +25,11 @@
 1. [Set up appropriate power for Raspberry Pi and x230 board for chip](#set-up-appropriate-power-for-raspberry-pi-and-x230-board-for-chip)
 1. [Backup existing BIOS](#backup-existing-bios)
 1. [Flash Heads on an x230](#flash-heads-on-an-x230)
+1. [Running Qubes ](#running-qubes)
+1. [Add Xen to boot](#add-xen-to-boot)
+1. [Neutering ME](#neutering-me)
+1. [Configuring the TPM](#configuring-the-tpm)
 
-# Configuring Table of Contents
-
-1. 
 
 # Build Heads
 
@@ -38,6 +39,7 @@ in dedicated Fedora 23 `heads` qube:
 2. `sudo dnf install @development-tools bison clang flex m4 zlib zlib-devel perl-Digest perl-Digest-MD5 patch uuid-devel elfutils-libelf-devel`
 3. [Download Heads](https://github.com/osresearch/heads)
   - unzip if necessary
+4. Read [Running Qubes section](#running-qubes), as you may need to change some aspects of `initrd/bin/start-xen`
 5. build Heads
   - run `make` in heads folder
 6. `x230.rom` created 
