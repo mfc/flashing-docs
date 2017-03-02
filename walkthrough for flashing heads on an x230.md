@@ -246,21 +246,20 @@ attach Pomona clip to MX25L6406E, which is further from the screen and closer to
 
 Now run diff to see if they match:
 
-1. `diff me-backup1.rom me-backup2.rom`
+`diff me-backup1.rom me-backup2.rom`
 
 If you receive no output, they match. Alternatively, you can take a `sha512sum`, `sha1sum`, or `md5sum` of the files to confirm they match:
 
-1. `sha512sum me-backup*.rom`
+`sha512sum me-backup*.rom`
 
 clean a copy
 
-1 .`python ./me-cleaner.py me-backup1.rom`
-
-1. rename to `me-cleaned.rom`
+1. `python ./me-cleaner.py me-backup1.rom`
+1. rename `me-backup1.rom` to `me-cleaned.rom`
 
 flash to board
 
-1. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -w /path/to/me-cleaned.rom`
+`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -w /path/to/me-cleaned.rom`
 
 * http://hardenedlinux.org/firmware/2016/11/17/neutralize_ME_firmware_on_sandybridge_and_ivybridge.html
 * https://github.com/corna/me_cleaner/wiki/How-does-it-work%3F
