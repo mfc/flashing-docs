@@ -28,7 +28,7 @@
 1. [Neutering ME](#neutering-me)
 1. [Add Xen to boot](#add-xen-to-boot)
 1. [Configuring the TPM](#configuring-the-tpm)
-1. Appendix: [Running Qubes](#running-qubes)
+1. Appendix: [Running Qubes](#appendix-running-qubes)
 
 # Build Heads
 
@@ -38,7 +38,7 @@ in dedicated Fedora 23 `heads` qube:
 2. `sudo dnf install @development-tools bison clang flex m4 zlib zlib-devel perl-Digest perl-Digest-MD5 patch uuid-devel elfutils-libelf-devel`
 3. [Download Heads](https://github.com/osresearch/heads)
   - unzip if necessary
-4. Read [Running Qubes section](#running-qubes), as you will probably need to change some aspects of `heads/initrd/bin/start-xen` prior to building Heads in the next step
+4. Read [Running Qubes section](#appendix-running-qubes), as you will probably need to change some aspects of `heads/initrd/bin/start-xen` prior to building Heads in the next step
 5. build Heads
   - run `make` in heads folder
 6. `x230.rom` created 
