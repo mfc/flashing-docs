@@ -237,6 +237,8 @@ First, ensure time is local:
 
 # Neutering ME
 
+Download the [ME Cleaner python script](https://github.com/corna/me_cleaner).
+
 attach Pomona clip to MX25L6406E, which is further from the screen and closer to you.
 
 1. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup1.rom`
