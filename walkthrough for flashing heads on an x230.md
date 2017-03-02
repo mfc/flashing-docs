@@ -1,4 +1,4 @@
-# Walkthrough for getting Heads on an x230
+# Walkthrough for flashing, configuring Heads on an x230 (+ ME Neutering)
 
 # Required Hardware
 * Raspberry Pi 3 Model B
