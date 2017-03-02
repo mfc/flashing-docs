@@ -147,13 +147,23 @@ which is:
 
 # Set up appropriate power for Raspberry Pi and x230 board for chip
 
-**If you are interested in ME Neutering, ignore the following advice and instead power the board throug the RPi.**
-
-You should have already gone into the x230 BIOS to enable Wake on LAN. With the x230 battery removed, plug in AC power and connect the x230 to a live ethernet connection via the ethernet cable. "live" just means that the computer (or wall socket) it is connected to is on. The green RJ45 (ethernet) light should turn on, signaling that the board is powered. The computer itself should remain off (no BIOS screen, etc).
+## Power the RPi
 
 While it is [recommended](https://www.bios-mods.com/forum/Thread-Thinkpad-X230-Can-t-read-BIOS-CHIP-using-Raspberry-PI-and-8pin-CLIP?pid=104417#pid104417) to power the Raspberry Pi through to-be-flashed x230, I was unable to do so (the Raspberry Pi did not turn on). I was able to power the Raspberry Pi by connecting it to a wall outlet via the micro-USB cable. You should test out powering the RPi with the Pomona Clip detached from the x230, so that you are just booting the RPi, and you can see whether or not it is receiving adequate power. If on boot there is a yellow lightning bolt in the upper right corner that means that your RPi is not receiving enough power -- try a different (shorter) micro-USB cable, try a wall outlet rather than plugging it into a computer.
 
-Wake-on-LAN is the preferred method to power the board that the chip is on, the alternative is powering the board from the Raspberry Pi itself, this is [not recommended by experts](https://www.coreboot.org/pipermail/coreboot/2016-December/082592.html). 
+## Powering the x230 board 
+
+### If you want to do ME Neutering
+
+If you are interested in [ME Neutering](#neutering-me), you need to power the board through the RPi, the Wake-on-LAN strategy described below will not work.
+
+Ensure that the x230 is off, battery removed, and AC power is **unplugged**. Attach the additional jumper wire between the Pomona Clip and RPi, attach the Clip to the appropriate chip and then power on the RPi.
+
+### If you don't want to do ME Neutering
+
+You should have already gone into the x230 BIOS to enable Wake on LAN. With the x230 battery removed, plug in AC power and connect the x230 to a live ethernet connection via the ethernet cable. "live" just means that the computer (or wall socket) it is connected to is on. The green RJ45 (ethernet) light should turn on, signaling that the board is powered. The computer itself should remain off (no BIOS screen, etc).
+
+Wake-on-LAN is the preferred method to power the board that the chip is on, the alternative is powering the board from the Raspberry Pi itself, this is [not recommended by experts](https://www.coreboot.org/pipermail/coreboot/2016-December/082592.html). However, this Wake-on-LAN strategy relies on ME functionality that will be removed by the [ME Neutering](#neutering-me).
 
 from:
 * https://www.bios-mods.com/forum/Thread-REQUEST-Lenovo-Thinkpad-X230-Whitelist-removal?pid=91134#pid91134
@@ -205,7 +215,7 @@ If you receive no output, they match. Alternatively, you can take a `sha512sum`,
 clean a copy
 
 1. `python ./me-cleaner.py me-backup1.rom`
-1. rename `me-backup1.rom` to `me-cleaned.rom`
+1. rename `me-backup1.rom` to `me-cleaned.rom` for sanity
 
 flash to board
 
@@ -219,26 +229,19 @@ flash to board
 https://github.com/osresearch/heads/issues/84#issuecomment-274623405
 
 1. `make xen.intermediate`
-2. copy to USB and **note the filesystem of the USB** (if NTFS reformat to ext4, Heads can't mount NTFS)
+2. extract `xen-4.6.3.gz` which should get you a file `xen`
+2. copy `xen` to USB and **note the filesystem of the USB** (if NTFS reformat to ext4, Heads can't mount NTFS)
 3. plug USB into Heads machine
 4. `mkdir /tmp/usb`
-5. `mount /dev/sdbX /tmp/usb`
-6. `mount -o rw /dev/sda1 /boot`
-6. `cp /tmp/usb/xen-4.6.3.gz /boot`
-7. `gunzip /xen-4.6.3.gz`
+5. `mount /dev/sdbX /tmp/usb` change "X" to the number of your USB partition (most likely `/dev/sdb1`)
+6. `mount -o rw /dev/sda1 /boot` 
+6. `cp /tmp/usb/xen /boot`
 8. `umount /tmp/usb`
 9. `umount /boot`
 
 # Configuring the TPM
 
 see (https://trmm.net/Installing_Heads#Configuring_the_TPM)
-
-First, ensure time is local:
-
-1. `date -u` should give you UTC time, `date` should give you your local time. If it doesn't:
-2. `export TZ=TIMEZONE`
-
-[here is a list of timezones](https://uical.uic.edu/ocas/ocwc/american/help/timezone.htm), I had success with the `UCT#` format. also: https://unix.stackexchange.com/questions/71860/correct-use-of-tz-date-and-hwclock
 
 1. `tpm physicalpresence -s`
 2. `tpm physicalenable`
@@ -249,6 +252,13 @@ First, ensure time is local:
 6. `/bin/sealtotp.sh`
 7. scan QR code
 8. test with `unsealtotp.sh`
+
+If you are finding the codes do not match, confirm the right time on your machine:
+
+1. `date -u` should give you UTC time, `date` should give you your local time. If it doesn't:
+2. `export TZ=TIMEZONE`
+
+[here is a list of timezones](https://uical.uic.edu/ocas/ocwc/american/help/timezone.htm), I had success with the `UCT#` format. also: https://unix.stackexchange.com/questions/71860/correct-use-of-tz-date-and-hwclock
 
 # Appendix: Running Qubes
 
