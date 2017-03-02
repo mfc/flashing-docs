@@ -39,7 +39,7 @@ in dedicated Fedora 23 `heads` qube:
 2. `sudo dnf install @development-tools bison clang flex m4 zlib zlib-devel perl-Digest perl-Digest-MD5 patch uuid-devel elfutils-libelf-devel`
 3. [Download Heads](https://github.com/osresearch/heads)
   - unzip if necessary
-4. Read [Running Qubes section](#running-qubes), as you may need to change some aspects of `initrd/bin/start-xen`
+4. Read [Running Qubes section](#running-qubes), as you may need to change some aspects of `heads/initrd/bin/start-xen`
 5. build Heads
   - run `make` in heads folder
 6. `x230.rom` created 
