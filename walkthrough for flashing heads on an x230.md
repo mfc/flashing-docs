@@ -25,11 +25,10 @@
 1. [Set up appropriate power for Raspberry Pi and x230 board for chip](#set-up-appropriate-power-for-raspberry-pi-and-x230-board-for-chip)
 1. [Backup existing BIOS](#backup-existing-bios)
 1. [Flash Heads on an x230](#flash-heads-on-an-x230)
-1. [Running Qubes ](#running-qubes)
-1. [Add Xen to boot](#add-xen-to-boot)
 1. [Neutering ME](#neutering-me)
+1. [Add Xen to boot](#add-xen-to-boot)
 1. [Configuring the TPM](#configuring-the-tpm)
-
+1. Appendix: [Running Qubes](#running-qubes)
 
 # Build Heads
 
@@ -39,7 +38,7 @@ in dedicated Fedora 23 `heads` qube:
 2. `sudo dnf install @development-tools bison clang flex m4 zlib zlib-devel perl-Digest perl-Digest-MD5 patch uuid-devel elfutils-libelf-devel`
 3. [Download Heads](https://github.com/osresearch/heads)
   - unzip if necessary
-4. Read [Running Qubes section](#running-qubes), as you may need to change some aspects of `heads/initrd/bin/start-xen`
+4. Read [Running Qubes section](#running-qubes), as you will probably need to change some aspects of `heads/initrd/bin/start-xen` prior to building Heads in the next step
 5. build Heads
   - run `make` in heads folder
 6. `x230.rom` created 
@@ -186,18 +185,34 @@ You may try and flash Heads now.
 
 When you get the message `Verifying flash... Verified` you have succeeded!
 
-----
+# Neutering ME
 
-Up next, setting up Heads: 
+Download the [ME Cleaner python script](https://github.com/corna/me_cleaner).
 
-# Running Qubes
+attach Pomona clip to MX25L6406E, which is further from the screen and closer to you.
 
-Things that need to be modified in the Makefile and re-built and re-flashed (unless you want to edit it every boot)
+1. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup1.rom`
+2. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup2.rom`
 
-* https://trmm.net/Installing_Heads#Adding_your_PGP_key
-  * [comment it out of Makefile for now](https://github.com/osresearch/heads/issues/119)
-*	change: `--module "${KERNEL} root=/dev/mapper/qubes_dom0-root rhgb" \` to `--module "${KERNEL} root=/dev/mapper/qubes_dom0-root rhgb" \` (see: [ticket](https://github.com/osresearch/heads/issues/110))
-* `XEN=/boot/xen` (see [ticket](https://github.com/osresearch/heads/issues/84#issuecomment-274623405))
+Now run diff to see if they match:
+
+`diff me-backup1.rom me-backup2.rom`
+
+If you receive no output, they match. Alternatively, you can take a `sha512sum`, `sha1sum`, or `md5sum` of the files to confirm they match:
+
+`sha512sum me-backup*.rom`
+
+clean a copy
+
+1. `python ./me-cleaner.py me-backup1.rom`
+1. rename `me-backup1.rom` to `me-cleaned.rom`
+
+flash to board
+
+`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -w /path/to/me-cleaned.rom`
+
+* http://hardenedlinux.org/firmware/2016/11/17/neutralize_ME_firmware_on_sandybridge_and_ivybridge.html
+* https://github.com/corna/me_cleaner/wiki/How-does-it-work%3F
 
 # Add Xen to boot
 
@@ -235,31 +250,11 @@ First, ensure time is local:
 7. scan QR code
 8. test with `unsealtotp.sh`
 
-# Neutering ME
+# Appendix: Running Qubes
 
-Download the [ME Cleaner python script](https://github.com/corna/me_cleaner).
+Things that may need to be modified in the Makefile prior to build (unless you want to edit `/bin/start-xen` every boot...):
 
-attach Pomona clip to MX25L6406E, which is further from the screen and closer to you.
-
-1. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup1.rom`
-2. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup2.rom`
-
-Now run diff to see if they match:
-
-`diff me-backup1.rom me-backup2.rom`
-
-If you receive no output, they match. Alternatively, you can take a `sha512sum`, `sha1sum`, or `md5sum` of the files to confirm they match:
-
-`sha512sum me-backup*.rom`
-
-clean a copy
-
-1. `python ./me-cleaner.py me-backup1.rom`
-1. rename `me-backup1.rom` to `me-cleaned.rom`
-
-flash to board
-
-`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -w /path/to/me-cleaned.rom`
-
-* http://hardenedlinux.org/firmware/2016/11/17/neutralize_ME_firmware_on_sandybridge_and_ivybridge.html
-* https://github.com/corna/me_cleaner/wiki/How-does-it-work%3F
+* https://trmm.net/Installing_Heads#Adding_your_PGP_key
+  * [comment it out of Makefile for now](https://github.com/osresearch/heads/issues/119)
+*	change: `--module "${KERNEL} root=/dev/mapper/qubes_dom0-root rhgb" \` to `--module "${KERNEL} root=/dev/mapper/qubes_dom0-root rhgb" \` (see: [ticket](https://github.com/osresearch/heads/issues/110))
+* `XEN=/boot/xen` (see [ticket](https://github.com/osresearch/heads/issues/84#issuecomment-274623405))
