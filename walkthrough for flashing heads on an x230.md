@@ -194,7 +194,7 @@ Things that need to be modified in the Makefile and re-built and re-flashed (unl
 
 * https://trmm.net/Installing_Heads#Adding_your_PGP_key
   * [comment it out of Makefile for now](https://github.com/osresearch/heads/issues/119)
-*	change: `--module "${KERNEL} root=/dev/mapper/qubes_dom0=root rhgb" \` to `--module "${KERNEL} root=/dev/mapper/qubes_dom0-root rhgb" \` (see: [ticket](https://github.com/osresearch/heads/issues/110))
+*	change: `--module "${KERNEL} root=/dev/mapper/qubes_dom0-root rhgb" \` to `--module "${KERNEL} root=/dev/mapper/qubes_dom0-root rhgb" \` (see: [ticket](https://github.com/osresearch/heads/issues/110))
 * `XEN=/boot/xen` (see [ticket](https://github.com/osresearch/heads/issues/84#issuecomment-274623405))
 
 # Add Xen to boot
@@ -226,7 +226,7 @@ First, ensure time is local:
 1. `tpm physicalpresence -s`
 2. `tpm physicalenable`
 3. `tpm physicalsetdeactivated -c`
-3. `tpm forceclear` (if you get an error `TPM deactivated`, you can enable TPM with `????`)
+3. `tpm forceclear` (if you get an error `TPM deactivated`, try [rebooting to fix the state](https://github.com/osresearch/heads/wiki/Installing-Heads#taking-ownership))
 4. `tpm physicalenable`
 5. `tpm takeclear -pwdo OWNER_PASSWORD` (should be `takeown`, [related bug](https://github.com/osresearch/heads/issues/117)
 6. `/bin/sealtotp.sh`
