@@ -263,10 +263,10 @@ If you are finding the codes do not match, confirm the right time on your machin
 
 # TODO
 
-https://github.com/osresearch/heads/wiki/Installing-Heads#installing-extra-software
-https://github.com/osresearch/heads/wiki/Installing-Heads#read-only-root
-https://github.com/osresearch/heads/wiki/Installing-Heads#hashing-the--partition-and-setting-up-dm-verity
-https://github.com/osresearch/heads/wiki/Installing-Heads#signing-boot
+1. https://github.com/osresearch/heads/wiki/Installing-Heads#installing-extra-software
+1. https://github.com/osresearch/heads/wiki/Installing-Heads#read-only-root
+1. https://github.com/osresearch/heads/wiki/Installing-Heads#hashing-the--partition-and-setting-up-dm-verity
+1. https://github.com/osresearch/heads/wiki/Installing-Heads#signing-boot
 
 # Appendix: Running Qubes
 
