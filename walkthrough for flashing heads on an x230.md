@@ -28,6 +28,7 @@
 1. [Neutering ME](#neutering-me)
 1. [Add Xen to boot](#add-xen-to-boot)
 1. [Configuring the TPM](#configuring-the-tpm)
+1. [TODO](#todo)
 1. Appendix: [Running Qubes](#appendix-running-qubes)
 
 # Build Heads
@@ -259,6 +260,13 @@ If you are finding the codes do not match, confirm the right time on your machin
 2. `export TZ=TIMEZONE`
 
 [here is a list of timezones](https://uical.uic.edu/ocas/ocwc/american/help/timezone.htm), I had success with the `UCT#` format. also: https://unix.stackexchange.com/questions/71860/correct-use-of-tz-date-and-hwclock
+
+# TODO
+
+https://github.com/osresearch/heads/wiki/Installing-Heads#installing-extra-software
+https://github.com/osresearch/heads/wiki/Installing-Heads#read-only-root
+https://github.com/osresearch/heads/wiki/Installing-Heads#hashing-the--partition-and-setting-up-dm-verity
+https://github.com/osresearch/heads/wiki/Installing-Heads#signing-boot
 
 # Appendix: Running Qubes
 
