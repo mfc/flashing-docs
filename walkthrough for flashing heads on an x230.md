@@ -1,5 +1,9 @@
 # Walkthrough for flashing, configuring Heads on an x230 (+ ME Neutering)
 
+|Last updated: December 2016| 
+|-----------------------|
+| *There have been updates to Heads and Heads documentation since this guide was created. Please first review Heads documentation:* http://osresearch.net |
+
 # Required Hardware
 * Raspberry Pi 3 Model B
   * micro-USB cable for powering the Raspberry Pi
@@ -10,8 +14,8 @@
 * Pomona 8-SOIC chip clip
 * Thinkpad x230
   * power cable
-* ethernet cable
-* device with live ethernet port
+* (optional) ethernet cable 
+* (optional) device with live ethernet port
 
 # Table of Contents
 
