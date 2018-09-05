@@ -178,11 +178,11 @@ from:
 
 Check that it can be read successfully. If you cannot read the chip and receive an error similar to "no EEPROM Detected" or "0x0 Chip detected" then you may want to ensure you Raspberry Pi has adequate power (the flashing yellow lightning bolt in the upper-right means it is not being provided sufficient power). You can try switching the two pins 19 and 21.
 
-`./flashrom -c "MX25L3206E/MX25L3208E" -p linux_spi:dev=/dev/spidev0.0 -r backup1.rom`
+`./flashrom -c "MX25L3206E/MX25L3208E" -p linux_spi:dev=/dev/spidev0.0,spispeed=512 -r backup1.rom`
 
 Run the flashrom command again to make a second dump:
 
-`./flashrom -c "MX25L3206E/MX25L3208E" -p linux_spi:dev=/dev/spidev0.0 -r backup2.rom`
+`./flashrom -c "MX25L3206E/MX25L3208E" -p linux_spi:dev=/dev/spidev0.0,spispeed=512 -r backup2.rom`
 
 Now run diff to see if they match:
 
@@ -196,7 +196,7 @@ You may try and flash Heads now.
 
 # Flash Heads on an x230
 
-`./flashrom -c "MX25L3206E/MX25L3208E" -p linux_spi:dev=/dev/spidev0.0 -w /path/to/x230.rom`
+`./flashrom -c "MX25L3206E/MX25L3208E" -p linux_spi:dev=/dev/spidev0.0,spispeed=512 -w /path/to/x230.rom`
 
 When you get the message `Verifying flash... Verified` you have succeeded!
 
@@ -206,8 +206,8 @@ Download the [ME Cleaner python script](https://github.com/corna/me_cleaner).
 
 attach Pomona clip to MX25L6406E, which is further from the screen and closer to you.
 
-1. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup1.rom`
-2. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -r me-backup2.rom`
+1. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0,spispeed=512 -r me-backup1.rom`
+2. `./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0,spispeed=512 -r me-backup2.rom`
 
 Now run diff to see if they match:
 
@@ -224,7 +224,7 @@ clean a copy
 
 flash to board
 
-`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0 -w /path/to/me-cleaned.rom`
+`./flashrom -c "MX25L6406E/MX25L6408E" -p linux_spi:dev=/dev/spidev0.0,spispeed=512 -w /path/to/me-cleaned.rom`
 
 * http://hardenedlinux.org/firmware/2016/11/17/neutralize_ME_firmware_on_sandybridge_and_ivybridge.html
 * https://github.com/corna/me_cleaner/wiki/How-does-it-work%3F
