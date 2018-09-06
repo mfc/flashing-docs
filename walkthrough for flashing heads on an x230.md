@@ -176,7 +176,13 @@ from:
 
 # Backup existing BIOS
 
-Check that it can be read successfully. If you cannot read the chip and receive an error similar to "no EEPROM Detected" or "0x0 Chip detected" then you may want to ensure you Raspberry Pi has adequate power (the flashing yellow lightning bolt in the upper-right means it is not being provided sufficient power). You can try switching the two pins 19 and 21.
+Check that it can be read successfully:
+
+`./flashrom -p linux_spi:dev=/dev/spidev0.0,spispeed=512`
+
+You should receive an output listing the chip name (for instance, `Found Macronix flash chip "MX25L3206E/MX25L3208E"` or `Found Micron/Numonyx/ST flash chip "N25Q064..3E"`). This depends on when the x230 was manufactured.
+
+If you cannot read the chip and receive an error similar to "no EEPROM Detected" or "0x0 Chip detected" then you may want to ensure you Raspberry Pi has adequate power (the flashing yellow lightning bolt in the upper-right means it is not being provided sufficient power). You can try switching the two pins 19 and 21.
 
 `./flashrom -c "MX25L3206E/MX25L3208E" -p linux_spi:dev=/dev/spidev0.0,spispeed=512 -r backup1.rom`
 
